@@ -1,25 +1,18 @@
 // import './App.css';
 import React, { useEffect, useState } from 'react';
-import socketIOClient from 'socket.io-client';
-
-const ENDPOINT = 'http://127.0.0.1:4001';
+import ClientComponent from './components/ClientComponent';
+import ChatForm from './components/ChatForm';
 
 function App() {
-	const [response, setResponse] = useState('');
-	console.log(response);
-
-	useEffect(() => {
-		const socket = socketIOClient(ENDPOINT);
-		socket.on('FromAPI', (data) => {
-			setResponse(data);
-		});
-	}, []);
+	const [loadClient, setLoadClient] = useState(true);
 
 	return (
-		<p>
-			hello
-			<time dateTime={response}>{response}</time>
-		</p>
+		<>
+			<ChatForm />
+			<button onClick={() => setLoadClient((prevState) => !prevState)}>STOP CLIENT</button>
+			{/* SOCKET IO CLIENT*/}
+			{loadClient ? <ClientComponent /> : null}
+		</>
 	);
 }
 
